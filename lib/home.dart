@@ -12,12 +12,8 @@ import 'package:flutter/rendering.dart';
 
 import 'package:urltv_master/sections.dart';
 import 'package:urltv_master/widgets.dart';
-import 'package:urltv_master/cards.dart';
 
-
-
-//const Color _kAppBackgroundColor = const Color(0xFF353662);
-const Color _kAppBackgroundColor = const Color(0xFF212121);
+const Color _kAppBackgroundColor = Colors.black;
 
 const Duration _kScrollDuration = const Duration(milliseconds: 400);
 const Curve _kScrollCurve = Curves.fastOutSlowIn;
@@ -31,63 +27,6 @@ const Curve _kScrollCurve = Curves.fastOutSlowIn;
 const double _kAppBarMinHeight = 90.0;
 const double _kAppBarMidHeight = 256.0;
 // The AppBar's max height depends on the screen, see _AnimationDemoHomeState._buildBody()
-
-
-
-
-final List<TravelDestination> destinations = <TravelDestination>[
-  const TravelDestination(
-    assetName: 'top_10_australian_beaches.jpg',
-    assetPackage: 'pafafsa',
-    imageURL: 'https://raw.githubusercontent.com/wilsharo/Fluttery-Filmy/master/hollowvsroctrans.png',
-    title: 'Top 10 Australian beaches',
-    description: const <String>[
-      'Number 10',
-      'Whitehaven Beach',
-      'Whitsunday Island, Whitsunday Islands',
-    ],
-  ),
-  const TravelDestination(
-    assetName: 'kangaroo_valley_safari.jpg',
-    assetPackage: 'faslfajfd',
-    imageURL: 'https://raw.githubusercontent.com/wilsharo/Fluttery-Filmy/master/urllogotransparent.png',
-    title: 'Kangaroo Valley Safari',
-    description: const <String>[
-      '2031 Moss Vale Road',
-      'Kangaroo Valley 2577',
-      'New South Wales',
-    ],
-  ),
-  const TravelDestination(
-    assetName: 'kangaroo_valley_safari.jpg',
-    assetPackage: 'faslfajfd',
-    imageURL: 'https://raw.githubusercontent.com/wilsharo/Fluttery-Filmy/master/urllogotransparent.png',
-    title: 'Kangaroo Valley Safari',
-    description: const <String>[
-      '2031 Moss Vale Road',
-      'Kangaroo Valley 400',
-      'New South Wales',
-    ],
-  ),
-  const TravelDestination(
-    assetName: 'klast item',
-    assetPackage: 'does it show?',
-    imageURL:
-    'https://raw.githubusercontent.com/wilsharo/Fluttery-Filmy/master/urllogotransparent.png',
-    title: 'Please Show',
-    description: const <String>[
-      '2031 Moss Vale Road',
-      'Item 4 Valley 500',
-      'New South Wales',
-    ],
-  )
-];
-
-
-/////////////
-
-
-
 
 // Initially occupies the same space as the status bar and gets smaller as
 // the primary scrollable scrolls upwards.
@@ -279,9 +218,9 @@ class _AllSectionsLayout extends MultiChildLayoutDelegate {
       final Rect columnCardRect = new Rect.fromLTWH(
           columnCardX, columnCardY, columnCardWidth, columnCardHeight);
       final Rect rowCardRect =
-      new Rect.fromLTWH(rowCardX, 0.0, rowCardWidth, size.height);
+          new Rect.fromLTWH(rowCardX, 0.0, rowCardWidth, size.height);
       final Rect cardRect =
-      _interpolateRect(columnCardRect, rowCardRect).shift(offset);
+          _interpolateRect(columnCardRect, rowCardRect).shift(offset);
       final String cardId = 'card$index';
       if (hasChild(cardId)) {
         layoutChild(cardId, new BoxConstraints.tight(cardRect.size));
@@ -290,7 +229,7 @@ class _AllSectionsLayout extends MultiChildLayoutDelegate {
 
       // Layout the title for index.
       final Size titleSize =
-      layoutChild('title$index', new BoxConstraints.loose(cardRect.size));
+          layoutChild('title$index', new BoxConstraints.loose(cardRect.size));
       final double columnTitleY =
           columnCardRect.centerLeft.dy - titleSize.height / 2.0;
       final double rowTitleY =
@@ -300,7 +239,7 @@ class _AllSectionsLayout extends MultiChildLayoutDelegate {
       final Offset columnTitleOrigin = new Offset(columnTitleX, columnTitleY);
       final Offset rowTitleOrigin = new Offset(centeredRowTitleX, rowTitleY);
       final Offset titleOrigin =
-      _interpolatePoint(columnTitleOrigin, rowTitleOrigin);
+          _interpolatePoint(columnTitleOrigin, rowTitleOrigin);
       positionChild('title$index', titleOrigin + offset);
 
       // Layout the selection indicator for index.
@@ -311,16 +250,16 @@ class _AllSectionsLayout extends MultiChildLayoutDelegate {
       final double columnIndicatorY =
           cardRect.bottomRight.dy - indicatorSize.height - 16.0;
       final Offset columnIndicatorOrigin =
-      new Offset(columnIndicatorX, columnIndicatorY);
+          new Offset(columnIndicatorX, columnIndicatorY);
       final Rect titleRect =
-      new Rect.fromPoints(titleOrigin, titleSize.bottomRight(titleOrigin));
+          new Rect.fromPoints(titleOrigin, titleSize.bottomRight(titleOrigin));
       final double centeredRowIndicatorX =
           rowIndicatorX + (rowIndicatorWidth - indicatorSize.width) / 2.0;
       final double rowIndicatorY = titleRect.bottomCenter.dy + 16.0;
       final Offset rowIndicatorOrigin =
-      new Offset(centeredRowIndicatorX, rowIndicatorY);
+          new Offset(centeredRowIndicatorX, rowIndicatorY);
       final Offset indicatorOrigin =
-      _interpolatePoint(columnIndicatorOrigin, rowIndicatorOrigin);
+          _interpolatePoint(columnIndicatorOrigin, rowIndicatorOrigin);
       positionChild('indicator$index', indicatorOrigin + offset);
 
       columnCardY += columnCardHeight;
@@ -475,7 +414,7 @@ class _SnappingScrollPhysics extends ClampingScrollPhysics {
   Simulation createBallisticSimulation(
       ScrollMetrics position, double dragVelocity) {
     final Simulation simulation =
-    super.createBallisticSimulation(position, dragVelocity);
+        super.createBallisticSimulation(position, dragVelocity);
     final double offset = position.pixels;
 
     if (simulation != null) {
@@ -545,9 +484,9 @@ class _AnimationDemoHomeState extends State<AnimationDemoHome> {
       ScrollNotification notification, double midScrollOffset) {
     if (notification.depth == 0 && notification is ScrollUpdateNotification) {
       final ScrollPhysics physics =
-      _scrollController.position.pixels >= midScrollOffset
-          ? const PageScrollPhysics()
-          : const NeverScrollableScrollPhysics();
+          _scrollController.position.pixels >= midScrollOffset
+              ? const PageScrollPhysics()
+              : const NeverScrollableScrollPhysics();
       if (physics != _headingScrollPhysics) {
         setState(() {
           _headingScrollPhysics = physics;
@@ -570,7 +509,7 @@ class _AnimationDemoHomeState extends State<AnimationDemoHome> {
       final double centerX =
           _headingPageController.position.viewportDimension / 2.0;
       final int newPageIndex =
-      xOffset > centerX ? pageIndex + 1 : pageIndex - 1;
+          xOffset > centerX ? pageIndex + 1 : pageIndex - 1;
       _headingPageController.animateToPage(newPageIndex,
           curve: _kScrollCurve, duration: _kScrollDuration);
     }
@@ -585,31 +524,6 @@ class _AnimationDemoHomeState extends State<AnimationDemoHome> {
             leader.position.pixels); // ignore: deprecated_member_use
     }
     return false;
-  }
-
-  Iterable<Widget> _detailItemsFor(Section section) {
-    ShapeBorder _shape;
-
-    _shape = _shape != null
-        ? null
-        : const RoundedRectangleBorder(
-      borderRadius: const BorderRadius.only(
-        topLeft: const Radius.circular(16.0),
-        topRight: const Radius.circular(16.0),
-        bottomLeft: const Radius.circular(2.0),
-        bottomRight: const Radius.circular(2.0),
-      ),
-    );
-
-    final Iterable<Widget> detailItems =
-    section.details.map((SectionDetail detail) {
-      return new SectionDetailView(
-        detail: detail,
-        shape: _shape,
-      );
-    });
-
-    return ListTile.divideTiles(context: context, tiles: detailItems);
   }
 
   Iterable<Widget> _allHeadingItems(double maxHeight, double midScrollOffset) {
@@ -655,14 +569,18 @@ class _AnimationDemoHomeState extends State<AnimationDemoHome> {
     final double screenHeight = mediaQueryData.size.height;
     final double appBarMaxHeight = screenHeight - statusBarHeight;
 
-
     // The scroll offset that reveals the appBarMidHeight appbar.
     final double appBarMidScrollOffset =
         statusBarHeight + appBarMaxHeight - _kAppBarMidHeight;
 
-    //
-    ShapeBorder shapeBorder;
-    //
+    ShapeBorder _shapeBorder = RoundedRectangleBorder(
+      borderRadius: const BorderRadius.only(
+        topLeft: const Radius.circular(16.0),
+        topRight: const Radius.circular(16.0),
+        bottomLeft: const Radius.circular(16.0),
+        bottomRight: const Radius.circular(16.0),
+      ),
+    );
 
     return new SizedBox.expand(
       child: new Stack(
@@ -711,18 +629,23 @@ class _AnimationDemoHomeState extends State<AnimationDemoHome> {
                         return _handlePageNotification(notification,
                             _detailsPageController, _headingPageController);
                       },
-                      child: new ListView(
-                          itemExtent: TravelDestinationItem.height,
-                          padding: const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
-                          children: destinations.map((TravelDestination destination) {
-                            return new Container(
-                              margin: const EdgeInsets.only(bottom: 8.0),
-                              child: new TravelDestinationItem(
-                                destination: destination,
-                                shape: shapeBorder,
-                              ),
-                            );
-                          }).toList()
+                      child: new PageView(
+                        controller: _detailsPageController,
+                        children: allSections.map((Section section) {
+                          return new ListView(
+                              itemExtent: VideoCard.height,
+                              padding: const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
+                              children: section.videos.map((VideoItem videoItem) {
+                                return new Container(
+                                  margin: const EdgeInsets.only(bottom: 8.0),
+                                  child: new VideoCard(
+                                    videoItem: videoItem,
+                                    shape: _shapeBorder,
+                                  ),
+                                );
+                              }).toList()
+                          );
+                        }).toList(),
                       ),
                     ),
                   ),
@@ -751,9 +674,4 @@ class _AnimationDemoHomeState extends State<AnimationDemoHome> {
       ),
     );
   }
-
-
-
-
-
 }

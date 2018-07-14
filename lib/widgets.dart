@@ -6,6 +6,10 @@ import 'package:flutter/material.dart';
 
 import 'package:urltv_master/sections.dart';
 
+import 'package:video_player/video_player.dart';
+
+import 'package:chewie/chewie.dart';
+
 const double kSectionIndicatorWidth = 32.0;
 
 // The card for a single section. Displays the section's gradient and background image.
@@ -33,7 +37,7 @@ class SectionCard extends StatelessWidget {
           ),
         ),
         child: new Image.network(
-          section.imageURL,
+          section.backgroundAsset,
           fit: BoxFit.cover,
         ),
       ),
@@ -112,59 +116,116 @@ class SectionIndicator extends StatelessWidget {
   }
 }
 
-// Display a single SectionDetail.
-class SectionDetailView extends StatelessWidget {
-  SectionDetailView({Key key, @required this.detail, this.shape})
-      : assert(detail != null && detail.imageAsset != null),
-        assert((detail.imageAsset ?? detail.title) != null),
+//Create video card from VideoItem object
+class VideoCard extends StatelessWidget {
+  VideoCard({Key key, @required this.videoItem, this.shape})
+      : assert(videoItem != null && videoItem.isValid),
         super(key: key);
 
-  static const double height = 366.0; //ws
-  final ShapeBorder shape; //ws
-  final SectionDetail detail;
+  static const double height = 393.0; //orig 366.0
+  final VideoItem videoItem;
+  final ShapeBorder shape;
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final TextStyle titleStyle =
+        theme.textTheme.headline.copyWith(color: Colors.white);
+    final TextStyle descriptionStyle = theme.textTheme.subhead;
 
-    final Widget image = new DecoratedBox(
-      decoration: new BoxDecoration(
-        borderRadius: new BorderRadius.circular(6.0),
-        image: new DecorationImage(
-          image: new AssetImage(
-            detail.imageAsset,
-            package: detail.imageAssetPackage,
+    return new SafeArea(
+      top: false,
+      bottom: false,
+      child: new Container(
+        color: new Color.fromRGBO(189, 0, 0, 0.3),
+        padding: const EdgeInsets.all(2.0),
+        height: height,
+        child: new Card(
+          color: new Color.fromRGBO(0, 0, 0, 0.5),
+          shape: shape,
+          child: new Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              // photo and title
+              new SizedBox(
+                height: 250.0,
+                child: new Stack(
+                  children: <Widget>[
+                    new Positioned.fill(
+                      child: new Chewie(
+                        new VideoPlayerController.network(
+                            videoItem.videoURL),
+                        aspectRatio: 3 / 2,
+                        autoPlay: false,
+                        looping: false,
+                        materialProgressColors: new ChewieProgressColors(
+                          playedColor: Colors.amber,
+                          handleColor: Colors.amber,
+                          backgroundColor: Colors.red,
+                          bufferedColor: Colors.grey,
+                        ),
+                        placeholder: new Image.network(
+                          videoItem.thumbnailURL,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              // description and share/explore buttons
+              new Expanded(
+                child: new Padding(
+                  padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
+                  child: new DefaultTextStyle(
+                    softWrap: false,
+                    overflow: TextOverflow.ellipsis,
+                    style: descriptionStyle,
+                    child: new Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        // three line description
+                        new Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: new Text(
+                            videoItem.title,
+                            style:
+                                titleStyle.copyWith(color: Colors.white),
+                          ),
+                        ),
+                        new Text(
+                          videoItem.description,
+                          style: descriptionStyle.copyWith(color: Colors.white),
+                        ),
+                        //new Text(destination.description[2]),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              // share, explore buttons
+              new ButtonTheme.bar(
+                child: new ButtonBar(
+                  alignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    new FlatButton(
+                      child: const Text('SHARE'),
+                      textColor: Colors.amber,
+                      onPressed: () {/* do nothing */},
+                    ),
+                    new FlatButton(
+                      child: const Text('COMMENT'),
+                      textColor: Colors.amber,
+                      onPressed: () {/* do nothing */},
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-          fit: BoxFit.cover,
-          alignment: Alignment.center,
         ),
       ),
     );
-
-    Widget item;
-    if (detail.title == null && detail.subtitle == null) {
-      item = new Container(
-        height: 240.0,
-        padding: const EdgeInsets.all(16.0),
-        child: new SafeArea(
-          top: false,
-          bottom: false,
-          child: image,
-        ),
-      );
-    } else {
-      item = new ListTile(
-        title: new Text(detail.title),
-        subtitle: new Text(detail.title),
-        leading: new SizedBox(width: 32.0, height: 32.0, child: image),
-      );
-    }
-
-    return new DecoratedBox(
-      decoration: new BoxDecoration(color: Colors.grey.shade200),
-      child: item,
-    );
-
   }
 }
-
 
