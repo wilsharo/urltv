@@ -110,7 +110,7 @@ const VideoItem _hitmanholla = const VideoItem(
   videoURL:
       'https://player.vimeo.com/external/279460232.hd.mp4?s=aeb418accea13f829f843d40373fa161e0eff610&profile_id=174', //video source
   thumbnailURL:
-      'https://vignette.wikia.nocookie.net/battlerap/images/f/fc/Hitman.jpeg/revision/latest?cb=20130214233447',
+      'https://gazettereview.com/wp-content/uploads/2018/04/hitman-holla.jpg',
 );
 
 const VideoItem _goodz = const VideoItem(
@@ -127,7 +127,7 @@ final List<Section> allSections = <Section>[
     leftColor: _amber300,
     rightColor: _red900,
     backgroundAsset:
-        'https://raw.githubusercontent.com/wilsharo/Fluttery-Filmy/master/urllogotransparent.png',
+        'https://raw.githubusercontent.com/wilsharo/urltv/master/DefaultImages/urllogotransparent.png',
     videos: const <VideoItem>[
       _initiationStream,
       _nome8Stream,
@@ -144,7 +144,7 @@ final List<Section> allSections = <Section>[
     leftColor: _red900,
     rightColor: _amber300,
     backgroundAsset:
-        'https://raw.githubusercontent.com/wilsharo/Fluttery-Filmy/master/hollowvsroctrans.png',
+        'https://raw.githubusercontent.com/wilsharo/urltv/master/DefaultImages/hollowvsroctrans.png',
     videos: const <VideoItem>[
       _initiationStream,
       _nome8Stream,
@@ -155,7 +155,7 @@ final List<Section> allSections = <Section>[
     leftColor: _amber300,
     rightColor: _red900,
     backgroundAsset:
-        'https://raw.githubusercontent.com/wilsharo/Fluttery-Filmy/master/tsusurttransparent.png',
+        'https://raw.githubusercontent.com/wilsharo/urltv/master/DefaultImages/tsusurttransparent.png',
     videos: const <VideoItem>[
       _tsusurffreestyle,
       _reeddollazmvideo,
@@ -168,7 +168,7 @@ final List<Section> allSections = <Section>[
     leftColor: _red900,
     rightColor: _amber300,
     backgroundAsset:
-        'https://raw.githubusercontent.com/wilsharo/Fluttery-Filmy/master/urltvpolltransparent.png',
+        'https://raw.githubusercontent.com/wilsharo/urltv/master/DefaultImages/urltvpolltransparent.png',
     videos: const <VideoItem>[
       _sm6trailer,
       _hitmanholla,

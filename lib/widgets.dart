@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:urltv_master/sections.dart';
@@ -9,6 +10,8 @@ import 'package:urltv_master/sections.dart';
 import 'package:video_player/video_player.dart';
 
 import 'package:chewie/chewie.dart';
+
+import 'dart:async';
 
 const double kSectionIndicatorWidth = 32.0;
 
@@ -152,20 +155,20 @@ class VideoCard extends StatelessWidget {
                 child: new Stack(
                   children: <Widget>[
                     new Positioned.fill(
-                      child: new Chewie(
-                        new VideoPlayerController.network(
-                            videoItem.videoURL),
-                        aspectRatio: 3 / 2,
-                        autoPlay: false,
-                        looping: false,
-                        materialProgressColors: new ChewieProgressColors(
-                          playedColor: Colors.amber,
-                          handleColor: Colors.amber,
-                          backgroundColor: Colors.red,
-                          bufferedColor: Colors.grey,
-                        ),
-                        placeholder: new Image.network(
-                          videoItem.thumbnailURL,
+                      child: new GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CustomVideoPlayer(
+                                      videoItem: videoItem,
+                                    )),
+                          );
+                        },
+                        child: new CachedNetworkImage(
+                          imageUrl: videoItem.thumbnailURL,
+                          placeholder: new CircularProgressIndicator(),
+                          errorWidget: new Icon(Icons.error),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -189,8 +192,7 @@ class VideoCard extends StatelessWidget {
                           padding: const EdgeInsets.only(bottom: 8.0),
                           child: new Text(
                             videoItem.title,
-                            style:
-                                titleStyle.copyWith(color: Colors.white),
+                            style: titleStyle.copyWith(color: Colors.white),
                           ),
                         ),
                         new Text(
@@ -209,12 +211,12 @@ class VideoCard extends StatelessWidget {
                   alignment: MainAxisAlignment.start,
                   children: <Widget>[
                     new FlatButton(
-                      child: const Text('SHARE'),
+                      child: const Text('VOTE'),
                       textColor: Colors.amber,
                       onPressed: () {/* do nothing */},
                     ),
                     new FlatButton(
-                      child: const Text('COMMENT'),
+                      child: const Text('WATCH LATER'),
                       textColor: Colors.amber,
                       onPressed: () {/* do nothing */},
                     ),
@@ -229,3 +231,78 @@ class VideoCard extends StatelessWidget {
   }
 }
 
+class CustomVideoPlayer extends StatefulWidget {
+  VideoItem videoItem;
+
+  CustomVideoPlayer({Key key, @required this.videoItem}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() {
+    return new _CustomVideoPlayerState();
+  }
+}
+
+class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
+  TargetPlatform _platform;
+  VideoPlayerController _controller;
+
+  Chewie chewiePlayer;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = new VideoPlayerController.network(
+      'http://www.sample-videos.com/video/mp4/720/big_buck_bunny_720p_20mb.mp4',
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new WillPopScope(
+      onWillPop: _requestPop,
+      child: new Scaffold(
+        backgroundColor: Colors.black,
+        appBar: new AppBar(
+          title: new Text(widget.videoItem.title),
+        ),
+        body: new Stack(
+          children: <Widget>[
+            new Positioned.fill(
+              child: new Chewie(
+                _controller = new VideoPlayerController.network(
+                    widget.videoItem.videoURL),
+                aspectRatio: 3 / 2,
+                autoPlay: false,
+                looping: false,
+                materialProgressColors: new ChewieProgressColors(
+                  playedColor: Colors.amber,
+                  handleColor: Colors.amber,
+                  backgroundColor: Colors.red,
+                  bufferedColor: Colors.grey,
+                ),
+                placeholder: new CachedNetworkImage(
+                  imageUrl: widget.videoItem.thumbnailURL,
+                  placeholder: new CircularProgressIndicator(),
+                  errorWidget: new Icon(Icons.error),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<bool> _requestPop() async {
+    // await showDialog or Show add banners or whatever
+
+    //final snackBar = SnackBar(content: Text("Back Button pressed"));
+    //Scaffold.of(context).showSnackBar(snackBar);
+
+    _controller.pause();
+
+    // then
+    return true; // return true if the route to be popped
+  }
+}

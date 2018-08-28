@@ -4,10 +4,15 @@ import 'package:flutter/rendering.dart';
 
 import 'package:urltv_master/home.dart';
 
+import 'package:flutter/services.dart';
 
 
+void main() {
 
-void main() => runApp(new MyApp());
+  //SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
+  runApp(new MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -16,7 +21,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'URLTV.TV',
         theme: new ThemeData(
-            accentColor: Colors.orange, primaryColor: const Color(0xFFDE4435)),
+            accentColor: Colors.black, primaryColor: const Color(0xFFDE4435)),
         home: new AnimationDemoHome());
   }
 }
