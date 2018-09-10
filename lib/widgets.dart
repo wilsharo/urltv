@@ -232,7 +232,8 @@ class VideoCard extends StatelessWidget {
 }
 
 class CustomVideoPlayer extends StatefulWidget {
-  VideoItem videoItem;
+
+  final VideoItem videoItem;
 
   CustomVideoPlayer({Key key, @required this.videoItem}) : super(key: key);
 
@@ -243,7 +244,7 @@ class CustomVideoPlayer extends StatefulWidget {
 }
 
 class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
-  TargetPlatform _platform;
+  //TargetPlatform _platform;
   VideoPlayerController _controller;
 
   Chewie chewiePlayer;
@@ -304,5 +305,126 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
 
     // then
     return true; // return true if the route to be popped
+  }
+}
+
+//Create video card from VideoItem object
+class PollCard extends StatelessWidget {
+  PollCard({Key key, @required this.pollItem, this.shape})
+      : assert(pollItem != null && pollItem.isValid),
+        super(key: key);
+
+  static const double height = 393.0; //orig 366.0
+  final PollItem pollItem;
+  final ShapeBorder shape;
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final TextStyle titleStyle =
+        theme.textTheme.headline.copyWith(color: Colors.white);
+    final TextStyle descriptionStyle = theme.textTheme.subhead;
+
+    return new SafeArea(
+      top: false,
+      bottom: false,
+      child: new Container(
+        color: new Color.fromRGBO(189, 0, 0, 0.3),
+        padding: const EdgeInsets.all(2.0),
+        height: height,
+        child: new Card(
+          color: new Color.fromRGBO(0, 0, 0, 0.5),
+          shape: shape,
+          child: new Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              new Container(
+                color: Colors.redAccent.shade700,
+                alignment: FractionalOffset.center,
+                child: new Text("WHO WON?",
+                  style: titleStyle.copyWith(color: Colors.white),),
+              ),
+              // photo and title
+              new SizedBox(
+                height: 250.0,
+                child: new Stack(
+                  children: <Widget>[
+                    new Positioned.fill(
+                      child: new Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            InkWell(
+                              // When the user taps the button, show a snackbar
+                              onTap: () {
+                                Scaffold.of(context).showSnackBar(SnackBar(
+                                  content: Text(pollItem.title),
+                                ));
+                              },
+                              child: Container(
+                                child: new Image.asset(
+                                    pollItem.leftPicDirectory,
+                                    fit: BoxFit.contain),
+                              ),
+                            ),
+                            InkWell(
+                              // When the user taps the button, show a snackbar
+                              onTap: () {
+                                Scaffold.of(context).showSnackBar(SnackBar(
+                                  content: Text(pollItem.title),
+                                ));
+                              },
+                              child: Container(
+                                child: new Image.asset(
+                                    pollItem.rightPicDirectory,
+                                    fit: BoxFit.contain),
+                              ),
+                            )
+                          ]),
+                    ),
+                  ],
+                ),
+              ),
+              // description and share/explore buttons
+              new Expanded(
+                child: new Padding(
+                  padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                  child: new DefaultTextStyle(
+                    softWrap: false,
+                    overflow: TextOverflow.ellipsis,
+                    style: descriptionStyle,
+                    child: new Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Center(
+                          child: new Text(
+                            pollItem.title,
+                            style:
+                                descriptionStyle.copyWith(color: Colors.white),
+                          ),
+                        ),
+                        //new Text(destination.description[2]),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              // share, explore buttons
+              new ButtonTheme.bar(
+                child: new ButtonBar(
+                  alignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    new FlatButton(
+                      child: const Text('WATCH'),
+                      textColor: Colors.amber,
+                      onPressed: () {/* do nothing */},
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

@@ -632,19 +632,37 @@ class _AnimationDemoHomeState extends State<AnimationDemoHome> {
                       child: new PageView(
                         controller: _detailsPageController,
                         children: allSections.map((Section section) {
-                          return new ListView(
-                              itemExtent: VideoCard.height,
-                              padding: const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
-                              children: section.videos.map((VideoItem videoItem) {
-                                return new Container(
-                                  margin: const EdgeInsets.only(bottom: 8.0),
-                                  child: new VideoCard(
-                                    videoItem: videoItem,
-                                    shape: _shapeBorder,
-                                  ),
-                                );
-                              }).toList()
-                          );
+                          if (section.title == 'POLLS') {
+                            return new ListView(
+                                itemExtent: VideoCard.height,
+                                padding: const EdgeInsets.only(
+                                    top: 8.0, left: 8.0, right: 8.0),
+                                children:
+                                section.polls.map((PollItem pollItem) {
+                                  return new Container(
+                                    margin: const EdgeInsets.only(bottom: 8.0),
+                                    child: new PollCard(
+                                      pollItem: pollItem,
+                                      shape: _shapeBorder,
+                                    ),
+                                  );
+                                }).toList());
+                          } else {
+                            return new ListView(
+                                itemExtent: VideoCard.height,
+                                padding: const EdgeInsets.only(
+                                    top: 8.0, left: 8.0, right: 8.0),
+                                children:
+                                    section.videos.map((VideoItem videoItem) {
+                                  return new Container(
+                                    margin: const EdgeInsets.only(bottom: 8.0),
+                                    child: new VideoCard(
+                                      videoItem: videoItem,
+                                      shape: _shapeBorder,
+                                    ),
+                                  );
+                                }).toList());
+                          }
                         }).toList(),
                       ),
                     ),

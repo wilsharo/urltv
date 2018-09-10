@@ -12,7 +12,6 @@ import 'package:flutter/material.dart';
 const Color _red900 = const Color(0xFFB71C1C);
 const Color _amber300 = const Color(0xFFFFD54F);
 
-
 class VideoItem {
   const VideoItem({
     this.title,
@@ -28,20 +27,42 @@ class VideoItem {
   bool get isValid => title != null && videoURL != null && thumbnailURL != null;
 }
 
-class Section {
-  const Section({
+class PollItem {
+  const PollItem({
     this.title,
-    this.backgroundAsset,
-    this.leftColor,
-    this.rightColor,
-    this.videos,
+    this.description,
+    this.leftPicURL,
+    this.rightPicURL,
+    this.leftPicDirectory,
+    this.rightPicDirectory
   });
+  final String title;
+  final String description;
+  final String leftPicURL;
+  final String rightPicURL;
+  final String leftPicDirectory;
+  final String rightPicDirectory;
+
+
+  bool get isValid =>
+      description != null && leftPicURL != null && rightPicURL != null;
+}
+
+class Section {
+  const Section(
+      {this.title,
+      this.backgroundAsset,
+      this.leftColor,
+      this.rightColor,
+      this.videos,
+      this.polls});
 
   final String title;
   final String backgroundAsset;
   final Color leftColor;
   final Color rightColor;
   final List<VideoItem> videos;
+  final List<PollItem> polls;
 
   @override
   bool operator ==(Object other) {
@@ -64,12 +85,21 @@ const VideoItem _nome8Stream = const VideoItem(
   thumbnailURL: 'https://i.ytimg.com/vi/URhtMk8qI5U/maxresdefault.jpg',
 );
 
+const VideoItem _tinkvssaga = const VideoItem(
+  title: 'Tink Da Demon Vs Th3 Saga',
+  description: 'BORN LEGACY 5',
+  videoURL:
+      'https://player.vimeo.com/external/287485849.m3u8?s=6f88c25d27ad58e69f98bc71f67ec9c85a679ec5', //video source
+  thumbnailURL: 'https://i.ytimg.com/vi/-QthqzVBXyU/hqdefault.jpg',
+);
+
 const VideoItem _initiationStream = const VideoItem(
   title: 'Initiation',
   description: 'Initiation VOD: Los Angeles',
   videoURL:
       'https://player.vimeo.com/external/278989034.sd.mp4?s=68ce35639b8c363a7a39d8b7042cf8ddd1471105&profile_id=165', //video source
-  thumbnailURL: 'https://versetracker.com/sites/default/files/media-images/2018/06/url-announces-full-initiation-volume-1-card-feature.jpg',
+  thumbnailURL:
+      'https://versetracker.com/sites/default/files/media-images/2018/06/url-announces-full-initiation-volume-1-card-feature.jpg',
 );
 
 const VideoItem _nome8trailer = const VideoItem(
@@ -121,6 +151,40 @@ const VideoItem _goodz = const VideoItem(
   thumbnailURL: 'https://i.ytimg.com/vi/GFCmgNEgaqg/maxresdefault.jpg',
 );
 
+// hard coding sample polls. Later this should be pulled from DB
+
+const PollItem _poll1 = const PollItem(
+  title: 'Hollow Da Don Vs Tay Roc',
+  description: 'Who Won?',
+  leftPicURL:
+      'https://t2.genius.com/unsafe/391x220/https%3A%2F%2Fimages.genius.com%2F9aff9cd7cb563fa14ca63ec8feed1aee.1000x563x1.jpg',
+  rightPicURL:
+      'https://s3.amazonaws.com/battlerap-production/2016/03/IMG_0384.jpg',
+  leftPicDirectory: 'assets/images/hollowvsrocpoll1.jpg',
+  rightPicDirectory: 'assets/images/hollowvsrocpoll2.jpeg',
+);
+
+const PollItem _poll2 = const PollItem(
+  title: 'JC Vs Rum Nitty',
+  description: 'Who Won?',
+  leftPicURL: 'https://i.ytimg.com/vi/LIYqcInZe0c/maxresdefault.jpg',
+  rightPicURL:
+      'https://s3.amazonaws.com/battlerap-production/2016/03/IMG_0384.jpg',
+  leftPicDirectory: 'assets/images/jcvsnittypoll1.jpg',
+  rightPicDirectory: 'assets/images/jcvsnittypoll2.jpg',
+);
+
+const PollItem _poll3 = const PollItem(
+  title: 'Nu Jerzey Twork Vs Cortez',
+  description: 'Who Won?',
+  leftPicURL: 'https://i.ytimg.com/vi/5pcBeiS00_c/maxresdefault.jpg',
+  rightPicURL:
+      'https://s3.amazonaws.com/battlerap-production/2016/03/IMG_0384.jpg',
+  leftPicDirectory: 'assets/images/tworkvscortezpoll1.jpg',
+  rightPicDirectory: 'assets/images/tworkvscortezpoll2.jpg',
+);
+
+
 final List<Section> allSections = <Section>[
   const Section(
     title: 'HOME',
@@ -129,6 +193,7 @@ final List<Section> allSections = <Section>[
     backgroundAsset:
         'https://raw.githubusercontent.com/wilsharo/urltv/master/DefaultImages/urllogotransparent.png',
     videos: const <VideoItem>[
+      _tinkvssaga,
       _initiationStream,
       _nome8Stream,
       _sm6trailer,
@@ -146,6 +211,7 @@ final List<Section> allSections = <Section>[
     backgroundAsset:
         'https://raw.githubusercontent.com/wilsharo/urltv/master/DefaultImages/hollowvsroctrans.png',
     videos: const <VideoItem>[
+      _tinkvssaga,
       _initiationStream,
       _nome8Stream,
     ],
@@ -169,12 +235,9 @@ final List<Section> allSections = <Section>[
     rightColor: _amber300,
     backgroundAsset:
         'https://raw.githubusercontent.com/wilsharo/urltv/master/DefaultImages/urltvpolltransparent.png',
-    videos: const <VideoItem>[
-      _sm6trailer,
-      _hitmanholla,
-      _goodz,
-      _reeddollazmvideo,
-      _tsusurffreestyle,
+    polls: const <PollItem>[
+      _poll2,
+      _poll3,
     ],
   ),
 ];
